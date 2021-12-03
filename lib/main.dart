@@ -29,8 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Map producto = {"id":0 , "name":"", "description":""};
   List tagIds = [
-    {"id":1, "name":"Café", "tagId":[4, 245, 119, 58, 20, 111, 128], "description": "500 gramos de contenido, este producto vence el 20 de Marzo del 2022"},
-    {"id":2, "name":"Chocolate", "tagId":[62, 245, 28, 228], "description": "500 gramos de contenido, este producto vence el 20 de Enero del 2022"}
+    {"id":1, "name":"Café", "tagId":[4, 245, 119, 58, 20, 111, 128], "description": "Valor 3500 Pesos. 500 gramos de contenido, este producto vence el 20 de Marzo del 2022"},
+    {"id":2, "name":"Chocolate", "tagId":[62, 245, 28, 228], "description": "Valor 2000 Pesos. 500 gramos de contenido, este producto vence el 20 de Enero del 2022"},
+    {"id":2, "name":"perico", "tagId":[4, 249, 119, 58, 20, 111, 128], "description": "5 luquitas mi fafá"},
 
 
   ];
