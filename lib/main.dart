@@ -27,10 +27,10 @@ class _MyHomePageState extends State<MyHomePage> {
   ValueNotifier<dynamic> result = ValueNotifier(null);
 
 
-  String producto = "";
-  List tagID = [
-    {"id":1, "name":"Cafe", "tagId":[4, 245, 119, 58, 20, 111, 128]},
-    {"id":2, "name":"Chocolate", "tagId":[62, 245, 28, 228]}
+  Map producto = {"id":0 , "name":"", "description":""};
+  List tagIds = [
+    {"id":1, "name":"Café", "tagId":[4, 245, 119, 58, 20, 111, 128], "description": "500 gramos de contenido, este producto vence el 20 de Marzo del 2022"},
+    {"id":2, "name":"Chocolate", "tagId":[62, 245, 28, 228], "description": "500 gramos de contenido, este producto vence el 20 de Enero del 2022"}
 
 
   ];
@@ -46,15 +46,13 @@ class _MyHomePageState extends State<MyHomePage> {
             } 
             else {
             return Flex(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    /* mainAxisAlignment: MainAxisAlignment.spaceBetween, */
                     direction: Axis.vertical,
                     children: [
                       Flexible(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.all(4),
-                          constraints: BoxConstraints.expand(),
-                          decoration: BoxDecoration(border: Border.all()),
+                          flex:1,
+                          
+                          
                           child: SingleChildScrollView(
                             child: ValueListenableBuilder<dynamic>(
                               valueListenable: result,
@@ -62,10 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Text('${value ?? ''}'),
                             ),
                           ),
-                        ),
                       ),
-                      Flexible(
-                        flex: 3,
+                      /* Flexible(
+                        flex: 1,
                         child: GridView.count(
                           padding: EdgeInsets.all(4),
                           crossAxisCount: 2,
@@ -79,7 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           ],
                         ),
-                      ),
+                      ), */
+                      
+                      GestureDetector(
+                          onDoubleTap: (){ _speakDescription(producto["description"]); },
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(10),
+                            width: 300,
+                            height: 300,
+                            color: Colors.red,
+                            child: Center(
+                                child:Text(producto["name"])
+                            ),
+                          )
+                      )
+                      
                     ],
                   );
               }
@@ -88,13 +100,24 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future _speak () async{
+  Future _speak (name) async{
      await flutterTts.setVolume(1);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.setPitch(1.0);
     await flutterTts.setLanguage('es-ES');
     await flutterTts.awaitSpeakCompletion(true);
-    await flutterTts.speak("El producto es café");
+    await flutterTts.speak("El producto es: "+ name);
+      
+    
+  } 
+
+  Future _speakDescription (description) async{
+     await flutterTts.setVolume(1);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setPitch(1.0);
+    await flutterTts.setLanguage('es-ES');
+    await flutterTts.awaitSpeakCompletion(true);
+    await flutterTts.speak( description);
       
     
   }
@@ -127,15 +150,26 @@ class _MyHomePageState extends State<MyHomePage> {
   void _setId(_list){
     
     print (_list);
-    if(areListsEqual(_list, [4, 245, 119, 58, 20, 111, 128]) ){
+    for (var item in tagIds){
+       if(areListsEqual(item["tagId"], _list) ){
       setState(() {
-        producto="Cafe";
+        producto=item;
+      });
+      _speak(item['name']);
+      print ("Entro al  If");
+    }else{
+      print ("No entro");
+    }
+    }
+   /*  if(areListsEqual(item["tagId"], [4, 245, 119, 58, 20, 111, 128]) ){
+      setState(() {
+        producto["name"]="Cafe";
       });
       _speak();
       print ("Entro al  If");
     }else{
       print ("No entro");
-    }
+    } */
     
   }
   
